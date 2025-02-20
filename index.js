@@ -36,13 +36,29 @@ const getTotalSubscribers = (userData) =>{
 
 const showInvite = (userData) =>{
   app.innerHTML = `
-  <input type="text" id="link" value="https://evento.com?ref=${userData.ref}" disabled>
+  <main>
+    <h3>Inscrição confirmada!</h3>
+    <p>
+      Convide mais pessoas e concorra a prêmios!
+      <br/>
+      Compartilhe o link e acompanhe as inscrições:
+    </p>
 
-  <div id="stats">
-  <h4>${getTotalSubscribers(userData)}</h4>
-  <p>Inscrições feitas</p>
-</div>
+    <div class="input-group">
+      <label for="link">
+        <img src="link.svg" alt="Link icon">
+      </label>
+      <input type="text" id="link" value="https://evento.com?ref=${userData.ref}" disabled>
+    </div>
+  </main>
+
+  <section class="stats">
+      <h4>${getTotalSubscribers(userData)}</h4>
+    <p>inscrições feitas</p>
+  </section>
   `
+  app.setAttribute('class', 'page-invite')
+  updateImageLinks()
 }
 
 const saveUser = (userData) =>{
@@ -79,25 +95,78 @@ const formAction = () =>{
   }
 }
 
+const updateImageLinks = () => {
+  document.querySelectorAll('img').forEach((img) => {
+    if(img.src.includes('githubusercontent')){
+      return
+    }
+    const src = img.getAttribute('src')
+    img.src = `https://raw.githubusercontent.com/maykbrito/my-public-files/main/nlw-19/${src}`
+  })
+  }
+
 const startApp = () => {
   const content = `
-  <form id="form">
-  <input type="email" name="email"
-  placeholder="E-mail">
-  <input type="text" name="phone"
-  placeholder="Telefone">
-  <button>
-    Confirmar
-  </button>
-  </form>
+  <main>
+    <section class="about">
+      <div class="section-header">
+        <h2>
+          Sobre o evento
+        </h2>
+        <span class="badge">
+          AO VIVO
+        </span>
+      </div>
+      <p>
+        Um evento feito por e para pessoas desenvolvedoras apaixonadas por criar soluções inovadoras e compartilhar conhecimento. Vamos mergulhar nas tendências mais recentes em desenvolvimento de software, arquitetura de sistemas e tecnologias emergentes, com palestras, workshops e hackathons.
+        <br/><br/>
+        Dias 15 a 17 de março | Das 18h às 21h | Online &amp; Gratuito
+      </p>
+    </section>
+    <section class="registration">
+      <h2>Inscrição</h2>
+      <form id="form">
+        <div class="input-wrapper">
+          <div class="input-group">
+            
+            <label for="email">
+              <img src="mail.svg" alt="Email icon">
+            </label>
+
+            <input type="email" id="email" name="email" placeholder="E-mail">
+          </div>
+
+          <div class="input-group">
+            <label for="phone">
+              <img src="phone.svg" alt="Phone icon">
+            </label>
+            <input type="text" id="phone" name="phone" placeholder="Telefone">
+          </div>
+        </div>
+
+        <button>
+          Confirmar
+          <img src="arrow.svg" alt="Arrow right">
+        </button>
+      
+      </form>
+    </section>
+  </main>
   `
   app.innerHTML = content
-
+  app.setAttribute('class', 'page-start')
+  updateImageLinks()
   formAction()
 }
 
 startApp()
 
-document.getElementById("logo").onclick = () => startApp() 
+// showInvite({
+//   email:'test@test.com',
+//   phone: '999',
+//   ref: 100
+// })
+
+document.querySelector("header").onclick = () => startApp() 
 
 
